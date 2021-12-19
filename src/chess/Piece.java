@@ -1,19 +1,25 @@
 package chess;
 
 import javafx.scene.control.Label;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-public abstract class Piece extends Label {
+public class Piece extends Label {
+
     public static final Font font = new Font(Main.squareSize * 0.4);
 
     private PieceColor color;
     private Square square;
+    private PieceType pieceType;
 
-    public Piece(Square square){
+    public Piece(PieceType pieceType, Square square) {
         this();
+        this.pieceType = pieceType;
         this.square = square;
     }
 
@@ -21,10 +27,6 @@ public abstract class Piece extends Label {
         this.setOnDragDetected(
                 this::onDragDetected
         );
-        this.setOnDragDropped(
-                this::onDragDropped
-        );
-        this.setOnDragOver(this::onDragOver);
     }
 
     public PieceColor getColor() {
@@ -35,7 +37,13 @@ public abstract class Piece extends Label {
         this.color = color;
     }
 
-    public abstract String getLetter();
+    public String getLetter() {
+        String letter = pieceType.name().substring(0, 1).toLowerCase();
+        if (pieceType == PieceType.KING) {
+            letter = letter.toUpperCase();
+        }
+        return letter;
+    }
 
     public void updateView() {
         this.setText(getLetter());
@@ -45,16 +53,6 @@ public abstract class Piece extends Label {
         this.setTextFill(Paint.valueOf(color.toString()));
     }
 
-    public void onDragDropped(DragEvent event) {
-        Dragboard db = event.getDragboard();
-        if (db.hasContent(Location.DATAFORMAT)) {
-
-            event.setDropCompleted(true);
-        } else {
-            event.setDropCompleted(false);
-        }
-        event.consume();
-    }
 
     public void onDragDetected(MouseEvent event) {
         Dragboard db = this.startDragAndDrop(TransferMode.ANY);
@@ -63,19 +61,20 @@ public abstract class Piece extends Label {
         db.setContent(clipboardContent);
     }
 
-    public void onDragOver(DragEvent event) {
-        if (event.getGestureSource() != this && event.getDragboard().hasContent(Location.DATAFORMAT)) {
-            event.acceptTransferModes(TransferMode.ANY);
-        }
-        event.consume();
-    }
-
     public Square getSquare() {
         return square;
     }
 
     public void setSquare(Square square) {
         this.square = square;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public void setPieceType(PieceType pieceType) {
+        this.pieceType = pieceType;
     }
 
     public enum PieceColor {

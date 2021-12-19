@@ -1,6 +1,5 @@
 package chess;
 
-import chess.Pieces.*;
 import javafx.scene.layout.GridPane;
 
 public class ChessBoard extends GridPane {
@@ -19,44 +18,44 @@ public class ChessBoard extends GridPane {
         }
         Square square;
         square = squares[0][0];
-        square.setPiece(new Rook(square));
+        square.setPiece(new Piece(PieceType.ROOK, square));
         square = squares[1][0];
-        square.setPiece(new Knight(square));
+        square.setPiece(new Piece(PieceType.KNIGHT, square));
         square = squares[2][0];
-        square.setPiece(new Bishop(square));
+        square.setPiece(new Piece(PieceType.BISHOP, square));
         square = squares[3][0];
-        square.setPiece(new Queen(square));
+        square.setPiece(new Piece(PieceType.QUEEN, square));
         square = squares[4][0];
-        square.setPiece(new King(square));
+        square.setPiece(new Piece(PieceType.KING, square));
         square = squares[5][0];
-        square.setPiece(new Bishop(square));
+        square.setPiece(new Piece(PieceType.BISHOP, square));
         square = squares[6][0];
-        square.setPiece(new Knight(square));
+        square.setPiece(new Piece(PieceType.KNIGHT, square));
         square = squares[7][0];
-        square.setPiece(new Rook(square));
+        square.setPiece(new Piece(PieceType.ROOK, square));
         square = squares[0][7];
-        square.setPiece(new Rook(square));
+        square.setPiece(new Piece(PieceType.ROOK, square));
         square = squares[1][7];
-        square.setPiece(new Knight(square));
+        square.setPiece(new Piece(PieceType.KNIGHT, square));
         square = squares[2][7];
-        square.setPiece(new Bishop(square));
+        square.setPiece(new Piece(PieceType.BISHOP, square));
         square = squares[3][7];
-        square.setPiece(new Queen(square));
+        square.setPiece(new Piece(PieceType.QUEEN, square));
         square = squares[4][7];
-        square.setPiece(new King(square));
+        square.setPiece(new Piece(PieceType.KING, square));
         square = squares[5][7];
-        square.setPiece(new Bishop(square));
+        square.setPiece(new Piece(PieceType.BISHOP, square));
         square = squares[6][7];
-        square.setPiece(new Knight(square));
+        square.setPiece(new Piece(PieceType.KNIGHT, square));
         square = squares[7][7];
-        square.setPiece(new Rook(square));
+        square.setPiece(new Piece(PieceType.ROOK, square));
         for (int i = 0; i < 8; i++) {
             square = squares[i][1];
-            square.setPiece(new Pawn(square));
+            square.setPiece(new Piece(PieceType.PAWN, square));
         }
         for (int i = 0; i < 8; i++) {
             square = squares[i][6];
-            square.setPiece(new Pawn(square));
+            square.setPiece(new Piece(PieceType.PAWN, square));
         }
 
         for (int i = 0; i < 8; i++) {
@@ -68,6 +67,7 @@ public class ChessBoard extends GridPane {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 square = squares[i][j];
+                square.setBoard(this);
                 square.setPrefHeight(Main.squareSize);
                 square.setPrefWidth(Main.squareSize);
                 square.updateView();
@@ -75,5 +75,23 @@ public class ChessBoard extends GridPane {
         }
         this.setWidth(320);
         this.setHeight(320);
+    }
+
+    public Square getSquare(Location location) {
+        return squares[location.getI()][location.getJ()];
+    }
+
+    public Square getSquare(int i, int j) {
+        return squares[i][j];
+    }
+
+    public void handleDragDrop(Piece sourcePiece, Square dropSquare) {
+        isLegalMove(sourcePiece, dropSquare);
+    }
+
+    private boolean isLegalMove(Piece piece, Square square) {
+        boolean canMove = piece.getPieceType().canMove(piece.getSquare().getLocation(), square.getLocation(), this);
+        System.out.println("canMove" + canMove);
+        return canMove;
     }
 }

@@ -16,7 +16,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane gridPane = new GridPane();
-        //Parent root = FXMLLoader.load(getClass().getResource("layout.fxml"));
         primaryStage.setTitle("Chess");
         Scene scene = new Scene(gridPane, 8 * squareSize, 8 * squareSize);
         primaryStage.setScene(scene);

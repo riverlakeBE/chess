@@ -2,7 +2,9 @@ package chess;
 
 import javafx.scene.input.DataFormat;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
     public static DataFormat DATAFORMAT = new DataFormat("Location");
     private int i;
     private int j;

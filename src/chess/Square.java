@@ -1,11 +1,41 @@
 package chess;
 
 import javafx.geometry.Pos;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 
 public class Square extends Pane {
     private Location location;
     private Piece piece;
+    private ChessBoard board;
+
+    public Square() {
+        this.setOnDragDropped(
+                this::onDragDropped
+        );
+        this.setOnDragOver(this::onDragOver);
+    }
+
+    public void onDragDropped(DragEvent event) {
+        Object source = event.getGestureSource();
+        if (source instanceof Piece) {
+            board.handleDragDrop((Piece) source, this);
+            event.setDropCompleted(true);
+        } else {
+            event.setDropCompleted(false);
+        }
+        event.consume();
+    }
+
+    public void onDragOver(DragEvent event) {
+        Object source = event.getGestureSource();
+        if (source instanceof Piece && source != piece) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+        event.consume();
+    }
 
     public Location getLocation() {
         return location;
@@ -34,5 +64,13 @@ public class Square extends Pane {
         if (piece != null) {
             piece.updateView();
         }
+    }
+
+    public ChessBoard getBoard() {
+        return board;
+    }
+
+    public void setBoard(ChessBoard board) {
+        this.board = board;
     }
 }
