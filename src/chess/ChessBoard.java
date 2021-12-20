@@ -86,7 +86,9 @@ public class ChessBoard extends GridPane {
     }
 
     public void handleDragDrop(Piece sourcePiece, Square dropSquare) {
-        isLegalMove(sourcePiece, dropSquare);
+        if(isLegalMove(sourcePiece, dropSquare)){
+            doPieceMove(sourcePiece,dropSquare);
+        }
     }
 
     private boolean isLegalMove(Piece piece, Square square) {
