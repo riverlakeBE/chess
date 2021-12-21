@@ -2,7 +2,6 @@ package chess;
 
 import javafx.geometry.Pos;
 import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 
@@ -52,8 +51,12 @@ public class Square extends Pane {
     public void setPiece(Piece piece) {
         this.piece = piece;
         this.getChildren().clear();
-        this.getChildren().add(piece);
-        piece.setAlignment(Pos.CENTER);
+        if (piece != null) {
+            piece.setSquare(this);
+            this.getChildren().add(piece);
+            piece.setAlignment(Pos.CENTER);
+            piece.updateView();
+        }
     }
 
     public void updateView() {

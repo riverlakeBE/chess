@@ -2,7 +2,10 @@ package chess;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -14,13 +17,27 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        GridPane gridPane = new GridPane();
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Chess");
-        Scene scene = new Scene(gridPane, 8 * squareSize, 8 * squareSize);
+        Controller controller = new Controller(primaryStage);
+        VBox vBox = new VBox();
+        Scene scene = new Scene(vBox, 8 * squareSize, 8 * squareSize);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        // add MenuBar
+        MenuBar menuBar = new MenuBar();
+        vBox.getChildren().add(menuBar);
+        // add Game Menu
+        Menu gameMenu = new Menu("Game");
+        menuBar.getMenus().add(gameMenu);
+        controller.setGameMenu(gameMenu);
+        MenuItem newGameMenuItem = new MenuItem("New Game");
+        newGameMenuItem.setOnAction(controller::handleNewGame);
+        gameMenu.getItems().add(newGameMenuItem);
+        // add ChessBoard
         ChessBoard chessBoard = new ChessBoard();
-        gridPane.getChildren().add(chessBoard);
+        vBox.getChildren().add(chessBoard);
+        controller.setBoard(chessBoard);
+
+        primaryStage.show();
     }
 }

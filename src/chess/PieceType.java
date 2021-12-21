@@ -19,7 +19,7 @@ public enum PieceType {
                     }
 //                  pawn moves up two squares as first move
                 } else if (location2.getI() == location1.getI() && location1.getJ() == 1 && location2.getJ() == 3) {
-                    if (board.getSquare(location2).getPiece() != null || board.getSquare(location1.getI(), location1.getJ() + 1).getPiece() != null) {
+                    if (board.getSquare(location2).getPiece() != null || board.getSquare(location1.getI(), 2).getPiece() != null) {
                         return false;
                     }
                 } else {
@@ -38,7 +38,7 @@ public enum PieceType {
                     }
 //                  pawn moves up two squares as first move
                 } else if (location2.getI() == location1.getI() && location1.getJ() == 6 && location2.getJ() == 4) {
-                    if (board.getSquare(location2).getPiece() != null || board.getSquare(location1.getI(), location1.getJ() + 1).getPiece() != null) {
+                    if (board.getSquare(location2).getPiece() != null || board.getSquare(location1.getI(), 5).getPiece() != null) {
                         return false;
                     }
                 } else {
@@ -55,9 +55,11 @@ public enum PieceType {
         public boolean canMove(Location location1, Location location2, ChessBoard board) {
             if (location1.getI() == location2.getI()) {
                 int increment = (int) Math.signum(location2.getJ() - location1.getJ());
-                for (int j = location1.getJ() + 1; j != location2.getJ(); j += increment) {
+                for (int j = location1.getJ() + increment; j != location2.getJ(); j += increment) {
                     if (j != location2.getJ() && board.getSquare(location1.getI(), j).getPiece() != null) {
-                        return false;
+                        if(j!= location2.getJ()){
+                            return false;
+                        }
                     }
                 }
                 Piece loc2Piece = board.getSquare(location2).getPiece();
@@ -66,7 +68,7 @@ public enum PieceType {
                 }
             } else if (location1.getJ() == location2.getJ()) {
                 int increment = (int) Math.signum(location2.getI() - location1.getI());
-                for (int i = location1.getI() + 1; i != location2.getI(); i += increment) {
+                for (int i = location1.getI() + increment; i != location2.getI(); i += increment) {
                     if (board.getSquare(i, location1.getJ()).getPiece() != null) {
                         if (i != location2.getI()) {
                             return false;

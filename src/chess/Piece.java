@@ -23,7 +23,7 @@ public class Piece extends Label {
         this.square = square;
     }
 
-    public Piece() {
+    private Piece() {
         this.setOnDragDetected(
                 this::onDragDetected
         );
@@ -35,6 +35,7 @@ public class Piece extends Label {
 
     public void setColor(PieceColor color) {
         this.color = color;
+        updateView();
     }
 
     public String getLetter() {
@@ -50,7 +51,9 @@ public class Piece extends Label {
         this.setPrefSize(Main.squareSize, Main.squareSize);
         this.setFont(font);
         this.setTextAlignment(TextAlignment.CENTER);
-        this.setTextFill(Paint.valueOf(color.toString()));
+        if (color != null) {
+            this.setTextFill(Paint.valueOf(color.toString()));
+        }
     }
 
 
