@@ -54,7 +54,6 @@ public class Square extends Pane {
         if (piece != null) {
             piece.setSquare(this);
             this.getChildren().add(piece);
-            piece.setAlignment(Pos.CENTER);
             piece.updateView();
         }
     }

@@ -3,7 +3,7 @@ package chess;
 import javafx.scene.layout.GridPane;
 
 public class ChessBoard extends GridPane {
-    private Square[][] squares = new Square[8][8];
+    private final Square[][] squares = new Square[8][8];
 
     public ChessBoard() {
         this.setWidth(320);
