@@ -14,6 +14,11 @@ public class Location implements Serializable {
         this.j = j;
     }
 
+    public Location(Location location) {
+        this.i = location.getI();
+        this.j = location.getJ();
+    }
+
     public int getI() {
         return i;
     }
@@ -30,11 +35,24 @@ public class Location implements Serializable {
         this.j = j;
     }
 
+    public boolean equals(Location location) {
+        return i == location.getI() && j == location.getJ();
+    }
+
     @Override
     public String toString() {
         return "Location{" +
                 "i=" + i +
                 ", j=" + j +
                 '}';
+    }
+
+    public void add(Location location) {
+        i += location.getI();
+        j += location.getJ();
+    }
+
+    public boolean isOnBoard() {
+        return (0 <= i) && (i < 8) && (0 <= j) && (j < 8);
     }
 }

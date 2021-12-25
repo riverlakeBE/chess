@@ -1,6 +1,6 @@
 package chess;
 
-import javafx.geometry.Pos;
+import chess.Pieces.Piece;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
@@ -52,19 +52,19 @@ public class Square extends Pane {
         this.piece = piece;
         this.getChildren().clear();
         if (piece != null) {
-            piece.setSquare(this);
+            piece.setLocation(location);
             this.getChildren().add(piece);
-            piece.updateView();
         }
+    }
+
+    public boolean isEmpty() {
+        return piece == null;
     }
 
     public void updateView() {
         if (location != null) {
             String squareColor = (location.getI() + location.getJ()) % 2 == 0 ? "rgb(0,76,153)" : "rgb(160,160,160)";
             this.setStyle("-fx-background-color: " + squareColor);
-        }
-        if (piece != null) {
-            piece.updateView();
         }
     }
 

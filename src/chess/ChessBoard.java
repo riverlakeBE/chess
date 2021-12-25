@@ -1,31 +1,32 @@
 package chess;
 
+import chess.Logic.ExecutedMove;
+import chess.Logic.Move;
+import chess.Pieces.Piece;
+import chess.Pieces.PieceColor;
+import chess.Pieces.PieceType;
 import javafx.scene.layout.GridPane;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChessBoard extends GridPane {
     private final Square[][] squares = new Square[8][8];
 
     public ChessBoard() {
-        this.setWidth(320);
-        this.setHeight(320);
+        this.setWidth(8*Main.squareSize);
+        this.setHeight(8*Main.squareSize);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Square square = new Square();
                 square.setLocation(new Location(i, j));
-                squares[i][j] = square;
-                square.setPrefWidth(20);
-                square.setPrefHeight(20);
-                this.add(square, i, 8 - j);
-            }
-        }
-        Square square;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                square = squares[i][j];
-                square.setBoard(this);
                 square.setPrefHeight(Main.squareSize);
                 square.setPrefWidth(Main.squareSize);
                 square.updateView();
+                square.setBoard(this);
+                squares[i][j] = square;
+                this.add(square, i, 8 - j);
             }
         }
     }
@@ -38,8 +39,12 @@ public class ChessBoard extends GridPane {
         return squares[i][j];
     }
 
-    public void handleDragDrop(Piece sourcePiece, Square dropSquare) {
+    public Iterable<Square> getSquareIterable() {
+        return Arrays.stream(squares).flatMap(Arrays::stream).collect(Collectors.toList());
+    }
 
+    public void handleDragDrop(Piece sourcePiece, Square dropSquare) {
+        Move move = sourcePiece.getMove(dropSquare.getLocation(), true);
         if (isLegalMovement(sourcePiece, dropSquare)) {
             ChessBoard virtualBoard = new ChessBoard();
             virtualBoard.executeMove(sourcePiece, dropSquare);
@@ -50,16 +55,17 @@ public class ChessBoard extends GridPane {
     }
 
     private void executeMove(Piece piece, Square square) {
-        piece.getSquare().setPiece(null);
+        getSquare(piece.getLocation()).setPiece(null);
         square.setPiece(piece);
     }
 
-    private boolean isCheck(ChessBoard board, Piece.PieceColor color) {
+    private boolean isCheck(ChessBoard board, PieceColor color) {
         return false;
     }
 
     private boolean isLegalMovement(Piece piece, Square square) {
-        return piece.getPieceType().canMove(piece.getSquare().getLocation(), square.getLocation(), this);
+        return true;
+        //return piece.getPieceType().canMove(piece.getLocation(), square.getLocation(), this);
     }
 
     /**
@@ -69,9 +75,9 @@ public class ChessBoard extends GridPane {
         ChessBoard newBoard = new ChessBoard();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Piece oldPiece = this.getSquare(i,j).getPiece();
-                Square newSquare = newBoard.getSquare(i,j);
-                Piece newPiece = new Piece(oldPiece.getPieceType(), newSquare);
+                Piece oldPiece = this.getSquare(i, j).getPiece();
+                Square newSquare = newBoard.getSquare(i, j);
+                Piece newPiece = oldPiece.getPieceType().getInstance();
                 newPiece.setColor(oldPiece.getColor());
                 newSquare.setPiece(newPiece);
             }
@@ -86,54 +92,58 @@ public class ChessBoard extends GridPane {
                 square.setPiece(null);
             }
         }
-
         Square square;
         square = squares[0][0];
-        square.setPiece(new Piece(PieceType.ROOK, square));
+        square.setPiece(Piece.getInstance(PieceType.ROOK, square));
         square = squares[1][0];
-        square.setPiece(new Piece(PieceType.KNIGHT, square));
+        square.setPiece(Piece.getInstance(PieceType.KNIGHT, square));
         square = squares[2][0];
-        square.setPiece(new Piece(PieceType.BISHOP, square));
+        square.setPiece(Piece.getInstance(PieceType.BISHOP, square));
         square = squares[3][0];
-        square.setPiece(new Piece(PieceType.QUEEN, square));
+        square.setPiece(Piece.getInstance(PieceType.QUEEN, square));
         square = squares[4][0];
-        square.setPiece(new Piece(PieceType.KING, square));
+        square.setPiece(Piece.getInstance(PieceType.KING, square));
         square = squares[5][0];
-        square.setPiece(new Piece(PieceType.BISHOP, square));
+        square.setPiece(Piece.getInstance(PieceType.BISHOP, square));
         square = squares[6][0];
-        square.setPiece(new Piece(PieceType.KNIGHT, square));
+        square.setPiece(Piece.getInstance(PieceType.KNIGHT, square));
         square = squares[7][0];
-        square.setPiece(new Piece(PieceType.ROOK, square));
+        square.setPiece(Piece.getInstance(PieceType.ROOK, square));
         square = squares[0][7];
-        square.setPiece(new Piece(PieceType.ROOK, square));
+        square.setPiece(Piece.getInstance(PieceType.ROOK, square));
         square = squares[1][7];
-        square.setPiece(new Piece(PieceType.KNIGHT, square));
+        square.setPiece(Piece.getInstance(PieceType.KNIGHT, square));
         square = squares[2][7];
-        square.setPiece(new Piece(PieceType.BISHOP, square));
+        square.setPiece(Piece.getInstance(PieceType.BISHOP, square));
         square = squares[3][7];
-        square.setPiece(new Piece(PieceType.QUEEN, square));
+        square.setPiece(Piece.getInstance(PieceType.QUEEN, square));
         square = squares[4][7];
-        square.setPiece(new Piece(PieceType.KING, square));
+        square.setPiece(Piece.getInstance(PieceType.KING, square));
         square = squares[5][7];
-        square.setPiece(new Piece(PieceType.BISHOP, square));
+        square.setPiece(Piece.getInstance(PieceType.BISHOP, square));
         square = squares[6][7];
-        square.setPiece(new Piece(PieceType.KNIGHT, square));
+        square.setPiece(Piece.getInstance(PieceType.KNIGHT, square));
         square = squares[7][7];
-        square.setPiece(new Piece(PieceType.ROOK, square));
+        square.setPiece(Piece.getInstance(PieceType.ROOK, square));
         for (int i = 0; i < 8; i++) {
             square = squares[i][1];
-            square.setPiece(new Piece(PieceType.PAWN, square));
+            square.setPiece(Piece.getInstance(PieceType.PAWN, square));
         }
         for (int i = 0; i < 8; i++) {
             square = squares[i][6];
-            square.setPiece(new Piece(PieceType.PAWN, square));
+            square.setPiece(Piece.getInstance(PieceType.PAWN, square));
         }
 
         for (int i = 0; i < 8; i++) {
-            squares[i][0].getPiece().setColor(Piece.PieceColor.WHITE);
-            squares[i][1].getPiece().setColor(Piece.PieceColor.WHITE);
-            squares[i][6].getPiece().setColor(Piece.PieceColor.BLACK);
-            squares[i][7].getPiece().setColor(Piece.PieceColor.BLACK);
+            squares[i][0].getPiece().setColor(PieceColor.WHITE);
+            squares[i][1].getPiece().setColor(PieceColor.WHITE);
+            squares[i][6].getPiece().setColor(PieceColor.BLACK);
+            squares[i][7].getPiece().setColor(PieceColor.BLACK);
         }
+    }
+
+    public List<ExecutedMove> getMoves() {
+        //TODO
+        return null;
     }
 }
