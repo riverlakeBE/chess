@@ -26,6 +26,7 @@ public class LastMoveCondition implements MoveCondition {
         List<ExecutedMove> moves = board.getMoves();
         if (!moves.isEmpty()) {
             ExecutedMove lastMove = moves.get(moves.size() - 1);
+            System.out.println(lastMove.getLocation1().toString() + lastMove.getLocation2().toString());
             if (lastMove.getPlayerColor() == color && lastMove.getPieceType() == pieceType) {
                 if (lastMove.getLocation1().equals(location1) && lastMove.getLocation2().equals(location2)) {
                     return true;

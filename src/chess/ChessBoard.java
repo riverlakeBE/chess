@@ -47,6 +47,7 @@ public class ChessBoard extends GridPane {
 
     public void handleDragDrop(Piece sourcePiece, Square dropSquare) {
         Move move = sourcePiece.getMove(dropSquare.getLocation(), true);
+        System.out.println("Move:" + sourcePiece.getLocation() + dropSquare.getLocation());
         ExecutedMove executedMove = move.executeMove(this);
 
         if (executedMove != null) {

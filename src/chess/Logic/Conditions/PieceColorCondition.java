@@ -16,6 +16,6 @@ public class PieceColorCondition implements MoveCondition {
 
     @Override
     public boolean evaluate(ChessBoard board) {
-        return board.getSquare(location).getPiece().getColor()==color;
+        return !board.getSquare(location).isEmpty() && board.getSquare(location).getPiece().getColor()==color;
     }
 }

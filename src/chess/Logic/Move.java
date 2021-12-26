@@ -44,6 +44,6 @@ public abstract class Move {
     }
 
     protected void setPostConditions(List<MoveCondition> postConditions) {
-        postConditions = postConditions;
+        this.postConditions = postConditions;
     }
 }

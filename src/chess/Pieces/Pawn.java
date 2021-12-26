@@ -17,7 +17,7 @@ public class Pawn extends Piece {
     }
 
     protected Move getMove(Location location2) {
-        Move move = null;
+        Move move;
         if (color == PieceColor.WHITE) {
             //pawn moves one square up
             if (location2.getI() == location.getI() && location2.getJ() == location.getJ() + 1) {
@@ -32,9 +32,10 @@ public class Pawn extends Piece {
                 move1.setInstruction(new MovePieceInstruction(location, location2));
                 //En passent
                 SimpleMove move2 = new SimpleMove();
-                if (location.getJ() == 3) {
-                    move2.addPreCondition(new LastMoveCondition(PieceType.PAWN, color.invert(), new Location(location2.getI(), 1), new Location(location2.getI(), 3)));
+                if (location.getJ() == 4) {
+                    move2.addPreCondition(new LastMoveCondition(PieceType.PAWN, color.invert(), new Location(location2.getI(), 6), new Location(location2.getI(), 4)));
                     move2.setInstruction(new AndMoveInstruction(new MovePieceInstruction(location, location2), new ClearSquareInstruction(new Location(location2.getI(), location.getJ()))));
+                    System.out.println("lastmoveCondition" + new Location(location2.getI(), 6) + new Location(location2.getI(), 4));
                 } else {
                     move2.addPreCondition(new BooleanCondition(false));
                 }
@@ -50,6 +51,7 @@ public class Pawn extends Piece {
             } else {
                 SimpleMove move1 = new SimpleMove();
                 move1.addPreCondition(new BooleanCondition(false));
+                move = move1;
             }
         } else if (color == PieceColor.BLACK) {
             //pawn moves one square up
@@ -65,9 +67,10 @@ public class Pawn extends Piece {
                 move1.setInstruction(new MovePieceInstruction(location, location2));
                 //En passent
                 SimpleMove move2 = new SimpleMove();
-                if (location.getJ() == 4) {
-                    move2.addPreCondition(new LastMoveCondition(PieceType.PAWN, color.invert(), new Location(location2.getI(), 6), new Location(location2.getI(), 4)));
+                if (location.getJ() == 3) {
+                    move2.addPreCondition(new LastMoveCondition(PieceType.PAWN, color.invert(), new Location(location2.getI(), 1), new Location(location2.getI(), 3)));
                     move2.setInstruction(new AndMoveInstruction(new MovePieceInstruction(location, location2), new ClearSquareInstruction(new Location(location2.getI(), location.getJ()))));
+                    System.out.println("lastmoveCondition" + new Location(location2.getI(), 1) + new Location(location2.getI(), 3));
                 } else {
                     move2.addPreCondition(new BooleanCondition(false));
                 }
@@ -82,17 +85,23 @@ public class Pawn extends Piece {
             } else {
                 SimpleMove move1 = new SimpleMove();
                 move1.addPreCondition(new BooleanCondition(false));
+                move = move1;
             }
         } else {
             SimpleMove move1 = new SimpleMove();
             move1.addPreCondition(new BooleanCondition(false));
+            move = move1;
         }
+        System.out.println(move);
         return move;
     }
 
     @Override
     public MoveCondition getAttackCondition(Location location2) {
-        //todo
-        return new BooleanCondition(false);
+        if (color == PieceColor.WHITE) {
+            return new BooleanCondition(Math.abs(location.getI() - location2.getI()) == 1 && location2.getJ() == location.getJ() + 1);
+        } else {
+            return new BooleanCondition(Math.abs(location.getI() - location2.getI()) == 1 && location2.getJ() == location.getJ() - 1);
+        }
     }
 }

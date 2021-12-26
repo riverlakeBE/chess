@@ -22,7 +22,8 @@ public class MovePieceInstruction implements MoveInstruction {
         Piece piece2 = square2.getPiece();
         executedMove.addSquareChange(location1, piece1, null);
         executedMove.addSquareChange(location2, piece2, piece1);
-
+        executedMove.setLocation1(location1);
+        executedMove.setLocation2(location2);
         executedMove.setPieceType(piece1.getPieceType());
         executedMove.setPlayerColor(piece1.getColor());
         executedMove.setCapture(piece2 !=null && piece2.getColor()!= piece1.getColor());

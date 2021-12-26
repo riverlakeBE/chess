@@ -18,7 +18,7 @@ public class EmptyRangeCondition implements MoveCondition {
         int incrementI = (int) Math.signum(location2.getI() - location1.getI());
         int incrementJ = (int) Math.signum(location2.getJ() - location1.getJ());
         int j = location1.getJ() + incrementJ;
-        for (int i = location1.getI() + incrementI; i != location2.getI(); i += incrementI) {
+        for (int i = location1.getI() + incrementI; !(i == location2.getI() && j == location2.getJ()); i += incrementI) {
             if (result) {
                 result = new EmptySquareCondition(new Location(i, j)).evaluate(board);
             }
