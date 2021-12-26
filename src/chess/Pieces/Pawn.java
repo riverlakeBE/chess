@@ -35,7 +35,6 @@ public class Pawn extends Piece {
                 if (location.getJ() == 4) {
                     move2.addPreCondition(new LastMoveCondition(PieceType.PAWN, color.invert(), new Location(location2.getI(), 6), new Location(location2.getI(), 4)));
                     move2.setInstruction(new AndMoveInstruction(new MovePieceInstruction(location, location2), new ClearSquareInstruction(new Location(location2.getI(), location.getJ()))));
-                    System.out.println("lastmoveCondition" + new Location(location2.getI(), 6) + new Location(location2.getI(), 4));
                 } else {
                     move2.addPreCondition(new BooleanCondition(false));
                 }
@@ -70,7 +69,6 @@ public class Pawn extends Piece {
                 if (location.getJ() == 3) {
                     move2.addPreCondition(new LastMoveCondition(PieceType.PAWN, color.invert(), new Location(location2.getI(), 1), new Location(location2.getI(), 3)));
                     move2.setInstruction(new AndMoveInstruction(new MovePieceInstruction(location, location2), new ClearSquareInstruction(new Location(location2.getI(), location.getJ()))));
-                    System.out.println("lastmoveCondition" + new Location(location2.getI(), 1) + new Location(location2.getI(), 3));
                 } else {
                     move2.addPreCondition(new BooleanCondition(false));
                 }
@@ -92,7 +90,6 @@ public class Pawn extends Piece {
             move1.addPreCondition(new BooleanCondition(false));
             move = move1;
         }
-        System.out.println(move);
         return move;
     }
 

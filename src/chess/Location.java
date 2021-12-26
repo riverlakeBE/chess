@@ -55,4 +55,8 @@ public class Location implements Serializable {
     public boolean isOnBoard() {
         return (0 <= i) && (i < 8) && (0 <= j) && (j < 8);
     }
+
+    public boolean equals(int i, int j) {
+        return this.i == i && this.j ==j;
+    }
 }
