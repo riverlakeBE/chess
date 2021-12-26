@@ -3,7 +3,9 @@ package chess.Pieces;
 import chess.ChessBoard;
 import chess.Location;
 import chess.Logic.Conditions.*;
+import chess.Logic.Instructions.MovePieceInstruction;
 import chess.Logic.Move;
+import chess.Logic.SimpleMove;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +32,15 @@ public class Knight extends Piece {
 
     @Override
     public Move getMove(Location location2) {
-        Move move = new Move();
+        SimpleMove move = new SimpleMove();
         move.addPreCondition(new KnightAttackCondition(location, location2));
-        move.addPreCondition(new ColorOrEmptyCondition(location2, color));
+        move.addPreCondition(new ColorOrEmptyCondition(location2, color.invert()));
+        move.setInstruction(new MovePieceInstruction(location, location2));
         return move;
     }
 
     @Override
-    public MoveCondition getAttacksCondition(Location location2) {
+    public MoveCondition getAttackCondition(Location location2) {
         return new KnightAttackCondition(location, location2);
     }
 

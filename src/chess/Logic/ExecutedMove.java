@@ -73,6 +73,11 @@ public class ExecutedMove {
         isCapture = capture;
     }
 
+    public void merge(ExecutedMove executedMove2) {
+        changes.addAll(executedMove2.changes);
+
+    }
+
     private class SquareChange {
         private final Location location;
         private final Piece pieceAfter;

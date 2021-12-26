@@ -16,14 +16,14 @@ public class NotInCheckCondition implements MoveCondition {
 
     @Override
     public boolean evaluate(ChessBoard board) {
-        for (Square square : board.getSquareIterable()) {
+        for (Square square : board.getSquareList()) {
             if (!square.isEmpty()) {
                 Piece piece = square.getPiece();
                 if (piece.getPieceType() == PieceType.KING && piece.getColor() == color) {
-                    return new IsAttackedCondition(square.getLocation(), color).evaluate(board);
+                    return !(new IsAttackedCondition(square.getLocation(), color.invert()).evaluate(board));
                 }
             }
         }
-        return false;
+        return true;
     }
 }

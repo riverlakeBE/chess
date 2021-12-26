@@ -1,8 +1,8 @@
 package chess.Logic.Instructions;
 
 import chess.ChessBoard;
+import chess.Logic.ExecutedMove;
 
 public interface MoveInstruction {
-    void execute(ChessBoard board);
-    void reverse(ChessBoard board);
+    ExecutedMove getExecutedMove(ChessBoard board);
 }

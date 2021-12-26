@@ -12,9 +12,15 @@ public class XORMove extends Move {
     }
 
     @Override
-    public boolean executeMove(ChessBoard board) {
+    public ExecutedMove executeMove(ChessBoard board) {
         move1.setPostConditions(postConditions);
         move2.setPostConditions(postConditions);
-        return (move1.executeMove(board) || move2.executeMove(board));
+        ExecutedMove executedMove = move1.executeMove(board);
+        if (executedMove != null) {
+            return executedMove;
+        } else {
+            executedMove = move2.executeMove(board);
+            return executedMove;
+        }
     }
 }

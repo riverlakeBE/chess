@@ -6,6 +6,8 @@ import chess.Location;
 import chess.Pieces.PieceColor;
 import chess.Square;
 
+import java.util.List;
+
 /**
  * evaluates if on the board, the square on location is attacked by the piece color.
  */
@@ -20,11 +22,13 @@ public class IsAttackedCondition implements MoveCondition {
 
     @Override
     public boolean evaluate(ChessBoard board) {
-        for (Square square : board.getSquareIterable()) {
-            if (!square.isEmpty() && square.getPiece().getColor() == color) {
-                MoveCondition condition = square.getPiece().getAttacksCondition(location);
-                if (condition.evaluate(board)) {
-                    return true;
+        for(Square[] squareList : board.getSquares()){
+            for(Square square : squareList){
+                if (square.getPiece()!=null && square.getPiece().getColor() == color) {
+                    MoveCondition condition = square.getPiece().getAttackCondition(location);
+                    if (condition.evaluate(board)) {
+                        return true;
+                    }
                 }
             }
         }

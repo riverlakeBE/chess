@@ -22,7 +22,7 @@ public abstract class Move {
         postConditions.add(postCondition);
     }
 
-    public abstract boolean executeMove(ChessBoard board);
+    public abstract ExecutedMove executeMove(ChessBoard board);
 
     public List<MoveCondition> getPreConditions() {
         return preConditions;

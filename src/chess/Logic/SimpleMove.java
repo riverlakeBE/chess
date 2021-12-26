@@ -5,16 +5,17 @@ import chess.Logic.Instructions.MoveInstruction;
 
 public class SimpleMove extends Move {
     @Override
-    public boolean executeMove(ChessBoard board) {
+    public ExecutedMove executeMove(ChessBoard board) {
         if (Move.evaluate(preConditions, board)) {
-            instruction.execute(board);
+            ExecutedMove executedMove = instruction.getExecutedMove(board);
+            executedMove.execute(board);
             if(!Move.evaluate(postConditions,board)){
-                instruction.reverse(board);
-                return false;
+                executedMove.reverse(board);
+                return null;
             }
-            return true;
+            return executedMove;
         }
-        return false;
+        return null;
     }
     public void setInstruction(MoveInstruction instruction) {
         super.instruction = instruction;

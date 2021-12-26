@@ -44,7 +44,7 @@ public class Bishop extends MovementPiece {
     }
 
     @Override
-    public MoveCondition getAttacksCondition(Location location2) {
+    public MoveCondition getAttackCondition(Location location2) {
         return new BishopAttackCondition(location, location2);
     }
 }

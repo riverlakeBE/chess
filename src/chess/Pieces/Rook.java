@@ -30,7 +30,7 @@ public class Rook extends MovementPiece {
     }
 
     @Override
-    public MoveCondition getAttacksCondition(Location location2) {
+    public MoveCondition getAttackCondition(Location location2) {
         return new RookAttacksCondition(location, location2);
     }
 }

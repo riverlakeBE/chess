@@ -97,6 +97,7 @@ public abstract class Piece extends Pane {
         return moves;
     }
 
-    public abstract MoveCondition getAttacksCondition(Location location2);
+    public abstract MoveCondition getAttackCondition(Location location2);
+
 }
 

@@ -7,16 +7,18 @@ import chess.Pieces.PieceColor;
 import chess.Pieces.PieceType;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChessBoard extends GridPane {
     private final Square[][] squares = new Square[8][8];
+    private List<ExecutedMove> moveList = new ArrayList<>();
 
     public ChessBoard() {
-        this.setWidth(8*Main.squareSize);
-        this.setHeight(8*Main.squareSize);
+        this.setWidth(8 * Main.squareSize);
+        this.setHeight(8 * Main.squareSize);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Square square = new Square();
@@ -39,33 +41,17 @@ public class ChessBoard extends GridPane {
         return squares[i][j];
     }
 
-    public Iterable<Square> getSquareIterable() {
+    public List<Square> getSquareList() {
         return Arrays.stream(squares).flatMap(Arrays::stream).collect(Collectors.toList());
     }
 
     public void handleDragDrop(Piece sourcePiece, Square dropSquare) {
         Move move = sourcePiece.getMove(dropSquare.getLocation(), true);
-        if (isLegalMovement(sourcePiece, dropSquare)) {
-            ChessBoard virtualBoard = new ChessBoard();
-            virtualBoard.executeMove(sourcePiece, dropSquare);
-            if (virtualBoard.isCheck(virtualBoard, sourcePiece.getColor())) {
-                executeMove(sourcePiece, dropSquare);
-            }
+        ExecutedMove executedMove = move.executeMove(this);
+
+        if (executedMove != null) {
+            moveList.add(executedMove);
         }
-    }
-
-    private void executeMove(Piece piece, Square square) {
-        getSquare(piece.getLocation()).setPiece(null);
-        square.setPiece(piece);
-    }
-
-    private boolean isCheck(ChessBoard board, PieceColor color) {
-        return false;
-    }
-
-    private boolean isLegalMovement(Piece piece, Square square) {
-        return true;
-        //return piece.getPieceType().canMove(piece.getLocation(), square.getLocation(), this);
     }
 
     /**
@@ -140,10 +126,18 @@ public class ChessBoard extends GridPane {
             squares[i][6].getPiece().setColor(PieceColor.BLACK);
             squares[i][7].getPiece().setColor(PieceColor.BLACK);
         }
+        moveList = new ArrayList<>();
     }
 
     public List<ExecutedMove> getMoves() {
-        //TODO
-        return null;
+        return moveList;
+    }
+
+    public void addMove(ExecutedMove executedMove) {
+        moveList.add(executedMove);
+    }
+
+    public Square[][] getSquares() {
+        return squares;
     }
 }

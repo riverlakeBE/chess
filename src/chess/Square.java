@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 
 public class Square extends Pane {
     private Location location;
-    private Piece piece;
+    private Piece piece=null;
     private ChessBoard board;
 
     public Square() {
